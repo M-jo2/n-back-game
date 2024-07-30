@@ -7,8 +7,8 @@ const pictureSet = [
 
 const colorsSet = ["#26495c", "#c4a35c", "#c66b3d", "#e5e5dc"];
 const rotationSet = [0, 90, 180, 270]
-const positionSet = [[0,0],[0,1],[1,0],[1,1]]
-const history =[]
+const positionSet = [[0, 0], [0, 1], [1, 0], [1, 1]]
+const history = []
 const level = 1;
 
 const buttonNames = ["Picture", "Rotation", "Color", "Position"];
@@ -21,7 +21,7 @@ function createButtons(buttonNames, containerClass) {
         const button = document.createElement("button");
         button.textContent = name;
         button.id = name.toLowerCase()
-        button.onclick = function() {
+        button.onclick = function () {
             if (this.className === "selected") {
                 this.className = "";
             } else {
@@ -43,7 +43,7 @@ function createButtons(buttonNames, containerClass) {
 
 function addPicture(element) {
     const filledCoordinates = pictureSet[Math.floor(Math.random() * pictureSet.length)];
-    history[history.length-1].picture = filledCoordinates;
+    history[history.length - 1].picture = filledCoordinates;
     const matrix = document.createElement('div');
     matrix.classList.add('matrix');
 
@@ -65,7 +65,7 @@ function addPicture(element) {
 function addColor(element) {
     const filledCells = Array.from(element.getElementsByClassName('filled'));
     const randomColor = colorsSet[Math.floor(Math.random() * colorsSet.length)];
-    history[history.length-1].color = randomColor;
+    history[history.length - 1].color = randomColor;
     filledCells.forEach(cell => {
         cell.style.backgroundColor = randomColor;
     });
@@ -73,34 +73,35 @@ function addColor(element) {
 
 function addRotation(element) {
     const randomRotation = rotationSet[Math.floor(Math.random() * rotationSet.length)];
-    history[history.length-1].rotation = randomRotation;
+    history[history.length - 1].rotation = randomRotation;
     element.style.transform = `rotate(${randomRotation}deg)`;
 }
 
 function addPosition(element) {
     const randomPosition = positionSet[Math.floor(Math.random() * positionSet.length)];
-    history[history.length-1].position = randomPosition
+    history[history.length - 1].position = randomPosition
 
     element.style.position = "absolute";
     element.style.transform += " scale(0.5, 0.5)";
-    element.style.top = (randomPosition[0]*150)+"px";
-    element.style.left = (randomPosition[1]*150)+"px";
+    element.style.top = (randomPosition[0] * 150) + "px";
+    element.style.left = (randomPosition[1] * 150) + "px";
 }
 
-const refreshHistoryVisual =() =>{
+const refreshHistoryVisual = () => {
     const historyZone = document.getElementsByClassName("history-zone");
 
 }
 
-const result=() =>{
-    const historyZone = document.getElementsByClassName("history-zone")[0]
-    historyZone.innerHTML = ''
-        const lastFigure = history.length-1;
+const result = () => {
+    if (history.length > level) {
+        const historyZone = document.getElementsByClassName("history-zone")[0]
+        historyZone.innerHTML = ''
+        const lastFigure = history.length - 1;
         const matchingResult = [
-            history[lastFigure].picture === history[lastFigure-level].picture,
-            history[lastFigure].color === history[lastFigure-level].color,
-            history[lastFigure].rotation === history[lastFigure-level].rotation,
-            history[lastFigure].position === history[lastFigure-level].position
+            history[lastFigure].picture === history[lastFigure - level].picture,
+            history[lastFigure].color === history[lastFigure - level].color,
+            history[lastFigure].rotation === history[lastFigure - level].rotation,
+            history[lastFigure].position === history[lastFigure - level].position
         ]
         const userEntry = [
             buttons[0].className === "selected",
@@ -109,50 +110,54 @@ const result=() =>{
             buttons[3].className === "selected",
         ]
         console.log(matchingResult)
-        matchingResult.forEach((result,index)=>{
+        console.log(userEntry)
+        matchingResult.forEach((result, index) => {
             const indicatorResutl = document.createElement("div")
             indicatorResutl.className = "history-card"
 
-            if(result === userEntry[index])
-                indicatorResutl.style.backgroundColor = "red"
-            else 
+            if (result === userEntry[index])
                 indicatorResutl.style.backgroundColor = "green"
+            else
+                indicatorResutl.style.backgroundColor = "red"
             historyZone.append(indicatorResutl)
         })
+    }
+    buttons.forEach((button) => {
+        button.className = ""
+    })
 }
 function loadPicture() {
-    if(history.length > level){
-        result()
-    }
+    result()
+
     const positionActivated = true
-    
+
     const element = document.createElement('div');
     element.className = "picture";
 
     const figureZone = document.getElementsByClassName("figures-zone")[0];
-    
+
     if (!figureZone) return;
 
     figureZone.innerHTML = ''
     history.push({
-        picture:null,
-        color:null,
-        rotation:null,
-        position:null
+        picture: null,
+        color: null,
+        rotation: null,
+        position: null
     })
 
     addPicture(element);
     addColor(element);
     addRotation(element);
-    
 
-    if(positionActivated){
+
+    if (positionActivated) {
         const gridZone = document.createElement('div');
         gridZone.className = 'grid-zone';
         addPosition(element, gridZone);
         gridZone.appendChild(element);
         figureZone.appendChild(gridZone);
-    }else{
+    } else {
         figureZone.appendChild(element)
     }
 }
