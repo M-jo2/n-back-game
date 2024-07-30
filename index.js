@@ -5,12 +5,14 @@ const pictureSet = [
     [[0, 0], [0, 1], [1, 0], [1, 1], [2, 2]]
 ];
 
-const colorsSet = ["darkred", "cyan", "blue", "orange", "green", "limegreen"];
+const colorsSet = ["#26495c", "#c4a35c", "#c66b3d", "#e5e5dc"];
 const rotationSet = [0, 90, 180, 270]
-const positionSet = [[0,0],[0,1],[1,0],[0,0]]
+const positionSet = [[0,0],[0,1],[1,0],[1,1]]
 const history =[]
+const level = 1;
 
-const buttonNames = ["Picture", "Rotation", "Color", "Position", "No Match"];
+const buttonNames = ["Picture", "Rotation", "Color", "Position"];
+const buttons = []
 
 function createButtons(buttonNames, containerClass) {
     const container = document.getElementsByClassName(containerClass)[0];
@@ -18,9 +20,25 @@ function createButtons(buttonNames, containerClass) {
     buttonNames.forEach(name => {
         const button = document.createElement("button");
         button.textContent = name;
-        button.onclick = loadPicture;
+        button.id = name.toLowerCase()
+        button.onclick = function() {
+            if (this.className === "selected") {
+                this.className = "";
+            } else {
+                this.className = "selected";
+            }
+        };
         container.appendChild(button);
+        buttons.push(button)
     });
+
+    const button = document.createElement("button");
+    button.textContent = "Validate";
+    button.id = "valid"
+    button.onclick = function () {
+        loadPicture()
+    };
+    container.appendChild(button);
 }
 
 function addPicture(element) {
@@ -59,7 +77,7 @@ function addRotation(element) {
     element.style.transform = `rotate(${randomRotation}deg)`;
 }
 
-function addPosition(element, figureZone) {
+function addPosition(element) {
     const randomPosition = positionSet[Math.floor(Math.random() * positionSet.length)];
     history[history.length-1].position = randomPosition
 
@@ -67,19 +85,52 @@ function addPosition(element, figureZone) {
     element.style.transform += " scale(0.5, 0.5)";
     element.style.top = (randomPosition[0]*150)+"px";
     element.style.left = (randomPosition[1]*150)+"px";
-
-    const gridZone = document.createElement('div');
-    gridZone.className = 'grid-zone';
-    gridZone.appendChild(element);
-
-    figureZone.appendChild(gridZone);
 }
 
+const refreshHistoryVisual =() =>{
+    const historyZone = document.getElementsByClassName("history-zone");
+
+}
+
+const result=() =>{
+    const historyZone = document.getElementsByClassName("history-zone")[0]
+    historyZone.innerHTML = ''
+        const lastFigure = history.length-1;
+        const matchingResult = [
+            history[lastFigure].picture === history[lastFigure-level].picture,
+            history[lastFigure].color === history[lastFigure-level].color,
+            history[lastFigure].rotation === history[lastFigure-level].rotation,
+            history[lastFigure].position === history[lastFigure-level].position
+        ]
+        const userEntry = [
+            buttons[0].className === "selected",
+            buttons[1].className === "selected",
+            buttons[2].className === "selected",
+            buttons[3].className === "selected",
+        ]
+        console.log(matchingResult)
+        matchingResult.forEach((result,index)=>{
+            const indicatorResutl = document.createElement("div")
+            indicatorResutl.className = "history-card"
+
+            if(result === userEntry[index])
+                indicatorResutl.style.backgroundColor = "red"
+            else 
+                indicatorResutl.style.backgroundColor = "green"
+            historyZone.append(indicatorResutl)
+        })
+}
 function loadPicture() {
+    if(history.length > level){
+        result()
+    }
+    const positionActivated = true
+    
     const element = document.createElement('div');
     element.className = "picture";
 
     const figureZone = document.getElementsByClassName("figures-zone")[0];
+    
     if (!figureZone) return;
 
     figureZone.innerHTML = ''
@@ -93,7 +144,17 @@ function loadPicture() {
     addPicture(element);
     addColor(element);
     addRotation(element);
-    addPosition(element, figureZone);
+    
+
+    if(positionActivated){
+        const gridZone = document.createElement('div');
+        gridZone.className = 'grid-zone';
+        addPosition(element, gridZone);
+        gridZone.appendChild(element);
+        figureZone.appendChild(gridZone);
+    }else{
+        figureZone.appendChild(element)
+    }
 }
 
 createButtons(buttonNames, "button-zone");
