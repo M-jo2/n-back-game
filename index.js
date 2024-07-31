@@ -81,6 +81,11 @@ function addPosition(element) {
     const randomPosition = positionSet[Math.floor(Math.random() * positionSet.length)];
     history[history.length - 1].position = randomPosition
 
+    const figureZone = document.getElementsByClassName("figures-zone")[0]
+    const gridDesign = document.getElementById("grid-image-template")
+    gridDesign.id = ""
+    figureZone.appendChild(gridDesign)
+
     element.style.position = "absolute";
     element.style.transform += " scale(0.5, 0.5)";
     element.style.top = (randomPosition[0] * 150) + "px";
