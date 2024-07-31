@@ -77,8 +77,6 @@ button.selected {
 }
 .picture {
     position: absolute;
-    transform-origin: center center;
-    transform: scale(0.1);
 }
 
 .matrix {

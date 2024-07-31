@@ -7,11 +7,16 @@ const pictureSet = [
 
 const colorsSet = ["#26495c", "#c4a35c", "#3dc67d", "#e5e5dc"];
 const rotationSet = [0, 90, 180, 270]
-const positionSet = [[0, 0], [0, 1], [1, 0], [1, 1]]
+const positionSet = [
+    [0, 0], [0, 1], [0, 2],
+    [1, 0], [1, 1], [1, 2],
+    [2, 0], [2, 1], [2, 2]
+];
+
 const history = []
 var level = 2;
 
-const buttonNames = ["Picture", "Position"];
+const buttonNames = ["Picture", "Color","Position"];
 const buttons = []
 
 const incLevel = (value) =>{
@@ -91,9 +96,9 @@ function addPosition(element) {
     figureZone.appendChild(gridDesign)
 
     element.style.position = "absolute";
-    element.style.transform += " scale(0.5, 0.5)";
-    element.style.top = (randomPosition[0] * 150) + "px";
-    element.style.left = (randomPosition[1] * 150) + "px";
+    element.style.transform += " scale(0.6, 0.6)";
+    element.style.top = (randomPosition[0] * 100)-25 + "px";
+    element.style.left = (randomPosition[1] * 100)-25 + "px";
 }
 
 const refreshHistoryVisual = () => {
@@ -142,7 +147,7 @@ function loadPicture() {
 
     const element = document.createElement('div');
     element.className = "picture";
-
+    element.position = "absolute"
     const figureZone = document.getElementsByClassName("figures-zone")[0];
 
     if (!figureZone) return;
