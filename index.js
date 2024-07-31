@@ -16,7 +16,7 @@ const positionSet = [
 const history = []
 var level = 2;
 
-const buttonNames = ["Picture", "Color","Position"];
+const buttonNames = ["Picture", "Color","Rotation","Position"];
 const buttons = []
 
 const incLevel = (value) =>{
@@ -28,8 +28,7 @@ function createButtons(buttonNames, containerClass) {
 
     buttonNames.forEach(name => {
         const button = document.createElement("button");
-        button.textContent = name;
-        button.id = name.toLowerCase()
+        button.id = name
         button.className = "button-action"
         fetch("./icons/"+name+".svg")
         .then(response => response.text())
@@ -47,13 +46,6 @@ function createButtons(buttonNames, containerClass) {
         buttons.push(button)
     });
 
-    // const button = document.createElement("button");
-    // button.textContent = "Validate";
-    // button.id = "valid"
-    // button.onclick = function () {
-    //     loadPicture()
-    // };
-    // container.appendChild(button);
 }
 
 function addPicture(element) {
@@ -149,8 +141,18 @@ const result = () => {
 }
 
 function loadPicture() {
+    if(history.length === 0 ){
+        buttons.forEach((element, index)=>{
+            if(element.className === "selected" && element.id !== "Picture") {
+                const index = buttonNames.indexOf(element.id);
+                if (index !== -1) {
+                    buttonNames.splice(index, 1);
+                    element.remove()
+                }
+            }
+        })
+    }
     result()
-
     const element = document.createElement('div');
     element.className = "picture";
     element.position = "absolute"
