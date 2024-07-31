@@ -11,7 +11,7 @@ const positionSet = [[0, 0], [0, 1], [1, 0], [1, 1]]
 const history = []
 const level = 1;
 
-const buttonNames = ["Picture", "Rotation", "Color", "Position"];
+const buttonNames = ["Picture", "Rotation", "Position"];
 const buttons = []
 
 function createButtons(buttonNames, containerClass) {
@@ -89,7 +89,6 @@ function addPosition(element) {
 
 const refreshHistoryVisual = () => {
     const historyZone = document.getElementsByClassName("history-zone");
-
 }
 
 const result = () => {
@@ -97,25 +96,21 @@ const result = () => {
         const historyZone = document.getElementsByClassName("history-zone")[0]
         historyZone.innerHTML = ''
         const lastFigure = history.length - 1;
-        const matchingResult = [
-            history[lastFigure].picture === history[lastFigure - level].picture,
-            history[lastFigure].color === history[lastFigure - level].color,
-            history[lastFigure].rotation === history[lastFigure - level].rotation,
-            history[lastFigure].position === history[lastFigure - level].position
-        ]
-        const userEntry = [
-            buttons[0].className === "selected",
-            buttons[1].className === "selected",
-            buttons[2].className === "selected",
-            buttons[3].className === "selected",
-        ]
-        console.log(matchingResult)
-        console.log(userEntry)
+        const matchingResult = [history[lastFigure].picture === history[lastFigure - level].picture]
+        if(buttonNames.includes("Color")){
+            matchingResult.push(history[lastFigure].color === history[lastFigure - level].color)
+        }
+        if(buttonNames.includes("Rotation")){
+            matchingResult.push(history[lastFigure].rotation === history[lastFigure - level].rotation)
+        }
+        if(buttonNames.includes("Position")){
+            matchingResult.push(history[lastFigure].position === history[lastFigure - level].position)
+        }
         matchingResult.forEach((result, index) => {
             const indicatorResutl = document.createElement("div")
             indicatorResutl.className = "history-card"
 
-            if (result === userEntry[index])
+            if (result === (buttons[index].className === "selected"))
                 indicatorResutl.style.backgroundColor = "green"
             else
                 indicatorResutl.style.backgroundColor = "red"
