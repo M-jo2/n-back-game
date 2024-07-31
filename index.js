@@ -100,7 +100,9 @@ const result = () => {
     const historyZone = document.getElementsByClassName("history-zone")[0]
     historyZone.innerHTML = ''
     const levelElement  = document.createElement("span")
-    levelElement.innerHTML = level
+    levelElement.innerHTML = "level : "+level + "  "
+    levelElement.style.color = "white"
+    levelElement.style.fontSize = "3em"
     historyZone.append(levelElement)
     if (history.length > level) {
         
