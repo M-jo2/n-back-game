@@ -11,7 +11,7 @@ const positionSet = [[0, 0], [0, 1], [1, 0], [1, 1]]
 const history = []
 const level = 1;
 
-const buttonNames = ["Picture", "Rotation", "Position"];
+const buttonNames = ["Picture", "Position"];
 const buttons = []
 
 function createButtons(buttonNames, containerClass) {
@@ -125,8 +125,6 @@ const result = () => {
 function loadPicture() {
     result()
 
-    const positionActivated = true
-
     const element = document.createElement('div');
     element.className = "picture";
 
@@ -143,11 +141,10 @@ function loadPicture() {
     })
 
     addPicture(element);
-    addColor(element);
-    addRotation(element);
+    if (buttonNames.includes("Color")) addColor(element);
+    if (buttonNames.includes("Rotation")) addRotation(element);
 
-
-    if (positionActivated) {
+    if (buttonNames.includes("Position")) {
         const gridZone = document.createElement('div');
         gridZone.className = 'grid-zone';
         addPosition(element, gridZone);
