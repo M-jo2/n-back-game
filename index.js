@@ -163,4 +163,5 @@ function loadPicture() {
     }
 }
 
+
 createButtons(buttonNames, "button-zone");
