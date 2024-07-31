@@ -82,7 +82,7 @@ function addPosition(element) {
     history[history.length - 1].position = randomPosition
 
     const figureZone = document.getElementsByClassName("figures-zone")[0]
-    const gridDesign = document.getElementById("grid-image-template")
+    const gridDesign = document.getElementById("grid-image-template").cloneNode(true)
     gridDesign.id = ""
     figureZone.appendChild(gridDesign)
 
