@@ -83,7 +83,7 @@ function addPosition(element) {
 
     const figureZone = document.getElementsByClassName("figures-zone")[0]
     const gridDesign = document.getElementById("grid-image-template").cloneNode(true)
-    gridDesign.id = ""
+    gridDesign.removeAttribute('id')
     figureZone.appendChild(gridDesign)
 
     element.style.position = "absolute";
@@ -97,9 +97,11 @@ const refreshHistoryVisual = () => {
 }
 
 const result = () => {
+    const historyZone = document.getElementsByClassName("history-zone")[0]
+    historyZone.innerHTML = ''
+    historyZone.append(document.createElement("span").innerHTML=level)
     if (history.length > level) {
-        const historyZone = document.getElementsByClassName("history-zone")[0]
-        historyZone.innerHTML = ''
+        
         const lastFigure = history.length - 1;
         const matchingResult = [history[lastFigure].picture === history[lastFigure - level].picture]
         if(buttonNames.includes("Color")){

@@ -37,6 +37,8 @@ body {
     display: flex;
     height: 15%;
     flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
 }
 
 .button-zone {
