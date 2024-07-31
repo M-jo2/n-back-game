@@ -124,8 +124,9 @@ const result = () => {
     }
     buttons.forEach((button) => {
         button.className = ""
-    })
+    })    
 }
+
 function loadPicture() {
     result()
 
