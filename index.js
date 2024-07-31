@@ -99,7 +99,9 @@ const refreshHistoryVisual = () => {
 const result = () => {
     const historyZone = document.getElementsByClassName("history-zone")[0]
     historyZone.innerHTML = ''
-    historyZone.append(document.createElement("span").innerHTML=level)
+    const levelElement  = document.createElement("span")
+    levelElement.innerHTML = level
+    historyZone.append(levelElement)
     if (history.length > level) {
         
         const lastFigure = history.length - 1;
