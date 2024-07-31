@@ -9,7 +9,7 @@ const colorsSet = ["#26495c", "#c4a35c", "#3dc67d", "#e5e5dc"];
 const rotationSet = [0, 90, 180, 270]
 const positionSet = [[0, 0], [0, 1], [1, 0], [1, 1]]
 const history = []
-const level = 1;
+const level = 2;
 
 const buttonNames = ["Picture", "Position"];
 const buttons = []
