@@ -30,6 +30,12 @@ function createButtons(buttonNames, containerClass) {
         const button = document.createElement("button");
         button.textContent = name;
         button.id = name.toLowerCase()
+        button.className = "button-action"
+        fetch("./icons/"+name+".svg")
+        .then(response => response.text())
+        .then(svgContent => {
+            button.innerHTML = svgContent;
+        })
         button.onclick = function () {
             if (this.className === "selected") {
                 this.className = "";
@@ -41,13 +47,13 @@ function createButtons(buttonNames, containerClass) {
         buttons.push(button)
     });
 
-    const button = document.createElement("button");
-    button.textContent = "Validate";
-    button.id = "valid"
-    button.onclick = function () {
-        loadPicture()
-    };
-    container.appendChild(button);
+    // const button = document.createElement("button");
+    // button.textContent = "Validate";
+    // button.id = "valid"
+    // button.onclick = function () {
+    //     loadPicture()
+    // };
+    // container.appendChild(button);
 }
 
 function addPicture(element) {
@@ -173,6 +179,8 @@ function loadPicture() {
     } else {
         figureZone.appendChild(element)
     }
+
+    setTimeout(loadPicture,2000)
 }
 
 

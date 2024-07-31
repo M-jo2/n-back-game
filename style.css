@@ -55,9 +55,15 @@ button {
     user-select: none;
     cursor: pointer;
     font-size: 1em;
-    width : 50%;
+    width: 50%;
     box-sizing: border-box;
 }
+
+button svg {
+    width: 50px;
+    height: 50px;
+}
+
 button.selected {
     color: rgb(224, 224, 224);
     background-color: rgb(97, 97, 97);
@@ -69,12 +75,13 @@ button.selected {
     width: 300px;
 }
 
-.history-card{
+.history-card {
     height: 50px;
     width: 50px;
     border: 3px solid white;
     border-radius: 10px;
 }
+
 .picture {
     position: absolute;
 }
@@ -97,6 +104,24 @@ button.selected {
 .filled {
     background-color: rgb(92, 92, 92);
     border-radius: 5px;
-    border: 5px,5px,1px,1px solid rgb(255, 255, 255);
+    border: 5px, 5px, 1px, 1px solid rgb(255, 255, 255);
     box-sizing: border-box;
+}
+
+.level-button {
+    width: 50px;
+    height: 50px;
+    color: aliceblue;
+    border-radius: 10px;
+    user-select: none;
+    cursor: pointer;
+    font-size: 3em;
+    padding: 5px;
+}
+
+@media screen and (min-width: 480px) {
+    html {
+        width: 480px;
+        margin: auto;
+    }
 }
