@@ -101,11 +101,20 @@ button.selected {
     margin: 2px;
 }
 
+@keyframes borderFadeOut {
+    from {
+      border: 2px solid white;
+    }
+    to {
+      border: 0px solid white;
+    }
+  }
+
 .filled {
     background-color: rgb(92, 92, 92);
     border-radius: 5px;
-    border: 5px, 5px, 1px, 1px solid rgb(255, 255, 255);
     box-sizing: border-box;
+    animation: borderFadeOut 0.1s forwards;
 }
 
 .level-button {
