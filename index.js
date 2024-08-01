@@ -188,17 +188,14 @@ function loadPicture() {
 
 //style js
 document.addEventListener("DOMContentLoaded", () => {
-    const elements = document.querySelectorAll('.filled');
-  
+    const elements = document.getElementsByClassName('filled');
+
     elements.forEach(element => {
-      const randomDelay = Math.random() * (300 - 100) + 100; // Délai entre 100ms et 300ms
-      element.style.setProperty('--animation-duration', `${randomDelay}ms`);
-  
-      // Pour déclencher l'animation, ajoutez la classe 'fade-out' après un petit délai
-      setTimeout(() => {
+        const randomDelay = Math.random() * (300 - 100) + 100; // Délai entre 100ms et 300ms
+        element.style.animationDuration = `${randomDelay}ms`;
+
         element.classList.add('pop-animation');
-      }, 0);
     });
-  });
+});
 
 createButtons(buttonNames, "button-zone");

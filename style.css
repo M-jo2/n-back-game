@@ -102,17 +102,21 @@ button.selected {
 }
 
 @keyframes borderFadeOut {
-    from {
-      transform: scale(0.1);
-    }
-    to {
-        transform: scale(1);
-    }
-  }
+from {
+    transform: scale(0.7);
+}
+65%{
+    transform: scale(1.05);
+}
+to {
+    transform: scale(1);
+}
+}
 
 .pop-animation {
     animation: borderFadeOut 0.5s forwards;
 }
+
 .filled {
     background-color: rgb(92, 92, 92);
     border-radius: 5px;
