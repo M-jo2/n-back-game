@@ -114,7 +114,7 @@ to {
 }
 
 .pop-animation {
-    animation: borderFadeOut 0.5s forwards;
+    animation: borderFadeOut forwards;
 }
 
 .filled {
