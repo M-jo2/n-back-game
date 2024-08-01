@@ -61,7 +61,7 @@ function addPicture(element) {
 
             if (filledCoordinates.some(coord => coord[0] === x && coord[1] === y)) {
                 cell.classList.add('filled');
-                const randomDelay = Math.random() * (300 - 100) + 100; // Délai entre 100ms et 300ms
+                const randomDelay = Math.random() * (500 - 100) + 100; // Délai entre 100ms et 300ms
                 cell.classList.add('pop-animation');
                 cell.style.animationDuration = `${randomDelay}ms`;
             }
