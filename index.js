@@ -61,6 +61,7 @@ function addPicture(element) {
 
             if (filledCoordinates.some(coord => coord[0] === x && coord[1] === y)) {
                 cell.classList.add('filled');
+                cell.classList.add('pop-animation');
             }
 
             matrix.appendChild(cell);
@@ -186,16 +187,6 @@ function loadPicture() {
 }
 
 
-//style js
-document.addEventListener("DOMContentLoaded", () => {
-    const elements = document.getElementsByClassName('filled');
 
-    elements.forEach(element => {
-        const randomDelay = Math.random() * (300 - 100) + 100; // Délai entre 100ms et 300ms
-        element.style.animationDuration = `${randomDelay}ms`;
-
-        element.classList.add('pop-animation');
-    });
-});
 
 createButtons(buttonNames, "button-zone");
