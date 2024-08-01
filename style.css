@@ -110,11 +110,13 @@ button.selected {
     }
   }
 
+.pop-animation {
+    animation: borderFadeOut 0.5s forwards;
+}
 .filled {
     background-color: rgb(92, 92, 92);
     border-radius: 5px;
     box-sizing: border-box;
-    animation: borderFadeOut 0.5s forwards;
 }
 
 .level-button {
