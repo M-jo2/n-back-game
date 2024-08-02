@@ -139,9 +139,8 @@ const result = () => {
             .then(svgContent => {
                 indicatorResutl.innerHTML = svgContent;
             })
-            
+            indicatorResutl.style.backgroundColor = color
             historyZone.append(indicatorResutl)
-            document.getElementById("history-card"+index).firstElementChild.style.fill = color
         })
     }
     buttons.forEach((button) => {
