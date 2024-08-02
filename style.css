@@ -127,7 +127,7 @@ to {
 }
 
 .rotation-animation{
-    animation: rotate 2s infinite linear;
+    animation: rotate 300ms linear;
 }
 
 .filled {
