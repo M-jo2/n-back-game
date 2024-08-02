@@ -86,7 +86,7 @@ function addRotation(element) {
     history[history.length - 1].rotation = randomRotation;
     element.style.transform = `rotate(${randomRotation}deg)`;
     element.classList.add("rotation-animation")
-    rotatingElement.style.setProperty('--rotate-angle', `${randomRotation}deg`);
+    element.style.setProperty('--rotate-angle', `${randomRotation}deg`);
 }
 
 function addPosition(element) {
