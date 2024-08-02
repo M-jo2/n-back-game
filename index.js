@@ -132,6 +132,7 @@ const result = () => {
         matchingResult.forEach((result, index) => {
             const indicatorResutl = document.createElement("div")
             indicatorResutl.className = "history-card"
+            indicatorResutl.id = "history-card"+index
             color = result === (buttons[index].className === "selected") ? "green" : "red"
             fetch("./icons/"+buttonNames[index]+".svg")
             .then(response => response.text())
@@ -140,7 +141,7 @@ const result = () => {
             })
             
             historyZone.append(indicatorResutl)
-            indicatorResutl.firstElementChild.style.fill = color
+            document.getElementById("history-card"+index).firstElementChild.style.fill = color
         })
     }
     buttons.forEach((button) => {
