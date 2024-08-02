@@ -132,16 +132,13 @@ const result = () => {
         matchingResult.forEach((result, index) => {
             const indicatorResutl = document.createElement("div")
             indicatorResutl.className = "history-card"
-
-            if (result === (buttons[index].className === "selected"))
-                indicatorResutl.style.backgroundColor = "green"
-            else
-                indicatorResutl.style.backgroundColor = "red"
-                fetch("./icons/"+buttonNames[index]+".svg")
-                .then(response => response.text())
-                .then(svgContent => {
-                    indicatorResutl.innerHTML = svgContent;
-                })
+            color = result === (buttons[index].className === "selected") ? "green" : "red"
+            fetch("./icons/"+buttonNames[index]+".svg")
+            .then(response => response.text())
+            .then(svgContent => {
+                svgContent.style.fill = color
+                indicatorResutl.innerHTML = svgContent;
+            })
             historyZone.append(indicatorResutl)
         })
     }
