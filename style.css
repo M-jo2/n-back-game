@@ -59,7 +59,7 @@ button {
     box-sizing: border-box;
 }
 
-button svg {
+svg {
     width: 50px;
     height: 50px;
 }
