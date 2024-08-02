@@ -138,8 +138,9 @@ const result = () => {
             .then(svgContent => {
                 indicatorResutl.innerHTML = svgContent;
             })
-            indicatorResutl.firstElementChild.style.fill = color
+            
             historyZone.append(indicatorResutl)
+            indicatorResutl.firstElementChild.style.fill = color
         })
     }
     buttons.forEach((button) => {
