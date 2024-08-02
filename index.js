@@ -84,7 +84,6 @@ function addColor(element) {
 function addRotation(element) {
     const randomRotation = rotationSet[Math.floor(Math.random() * rotationSet.length)];
     history[history.length - 1].rotation = randomRotation;
-    element.style.transform = `rotate(${randomRotation}deg)`;
     element.firstElementChild.classList.add("rotation-animation")
     element.firstElementChild.style.setProperty('--rotate-angle', `${randomRotation}deg`);
 }
