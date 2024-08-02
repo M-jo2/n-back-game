@@ -134,11 +134,11 @@ const result = () => {
             indicatorResutl.className = "history-card"
             indicatorResutl.id = "history-card"+index
             color = result === (buttons[index].className === "selected") ? "green" : "red"
-            fetch("./icons/"+buttonNames[index]+".svg")
-            .then(response => response.text())
-            .then(svgContent => {
-                indicatorResutl.innerHTML = svgContent;
-            })
+            const icone = document.createElement("img")
+            icone.src = "./icons/"+buttonNames[index]+".svg"
+            icone.color = color
+
+            indicatorResutl.appendChild(icone)
             indicatorResutl.style.backgroundColor = color
             historyZone.append(indicatorResutl)
         })
