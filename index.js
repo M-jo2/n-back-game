@@ -129,7 +129,7 @@ const result = () => {
         //    matchingResult.push(history[lastFigure].position === history[lastFigure - level].position)
        // }
         buttonNames.forEach((buttonName, index)=>{
-            result = [history[lastFigure][buttonName.toLowerCase()] === history[lastFigure - level][buttonName.toLowerCase()]]
+            const result = [history[lastFigure][buttonName.toLowerCase()] === history[lastFigure - level][buttonName.toLowerCase()]]
             const indicatorResutl = document.createElement("div")
             indicatorResutl.className = "history-card"
 
