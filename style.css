@@ -115,10 +115,10 @@ to {
 
 @keyframes rotate {
     from {
-        transform: rotate(0deg);
+        transform: scale(1)  rotate(0deg);
     }
     to {
-        transform: rotate(var(--rotate-angle, 0deg));
+        transform: scale(1) rotate(var(--rotate-angle, 0deg));
     }
 }
 
