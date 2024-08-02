@@ -136,10 +136,9 @@ const result = () => {
             color = result === (buttons[index].className === "selected") ? "green" : "red"
             const icone = document.createElement("img")
             icone.src = "./icons/"+buttonNames[index]+".svg"
-            icone.color = color
+            icone.style.color = color
 
             indicatorResutl.appendChild(icone)
-            indicatorResutl.style.backgroundColor = color
             historyZone.append(indicatorResutl)
         })
     }
