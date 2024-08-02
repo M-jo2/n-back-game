@@ -113,8 +113,21 @@ to {
 }
 }
 
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(var(--rotate-angle, 0deg));
+    }
+}
+
 .pop-animation {
     animation: borderFadeOut forwards;
+}
+
+.rotation-animation{
+    animation: rotate 2s infinite linear;
 }
 
 .filled {
