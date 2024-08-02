@@ -136,9 +136,9 @@ const result = () => {
             fetch("./icons/"+buttonNames[index]+".svg")
             .then(response => response.text())
             .then(svgContent => {
-                svgContent.style.fill = color
                 indicatorResutl.innerHTML = svgContent;
             })
+            indicatorResutl.firstElementChild.style.fill = color
             historyZone.append(indicatorResutl)
         })
     }
