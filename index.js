@@ -6,7 +6,7 @@ const pictureSet = [
 ];
 
 const colorsSet = ["#26495c", "#c4a35c", "#3dc67d", "#e5e5dc"];
-const rotationSet = [0, 90, 180, 270]
+const rotationSet = [0, 90, 180, -90]
 const positionSet = [
     [0, 0], [0, 1], [0, 2],
     [1, 0], [1, 1], [1, 2],
