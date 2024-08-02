@@ -118,18 +118,18 @@ const result = () => {
     if (history.length > level) {
         
         const lastFigure = history.length - 1;
-        //const matchingResult = [history[lastFigure].picture === history[lastFigure - level].picture]
-        //if(buttonNames.includes("Color")){
-        //    matchingResult.push(history[lastFigure].color === history[lastFigure - level].color)
-       // }
-        //if(buttonNames.includes("Rotation")){
-        //    matchingResult.push(history[lastFigure].rotation === history[lastFigure - level].rotation)
-        //}
-        //if(buttonNames.includes("Position")){
-        //    matchingResult.push(history[lastFigure].position === history[lastFigure - level].position)
-       // }
-        buttonNames.forEach((buttonName, index)=>{
-            const result = [history[lastFigure][buttonName.toLowerCase()] === history[lastFigure - level][buttonName.toLowerCase()]]
+        const matchingResult = [history[lastFigure].picture === history[lastFigure - level].picture]
+        if(buttonNames.includes("Color")){
+            matchingResult.push(history[lastFigure].color === history[lastFigure - level].color)
+        }
+        if(buttonNames.includes("Rotation")){
+            matchingResult.push(history[lastFigure].rotation === history[lastFigure - level].rotation)
+        }
+        if(buttonNames.includes("Position")){
+            matchingResult.push(history[lastFigure].position === history[lastFigure - level].position)
+        }
+        
+        matchingResult.forEach((result, index) => {
             const indicatorResutl = document.createElement("div")
             indicatorResutl.className = "history-card"
 
@@ -137,18 +137,13 @@ const result = () => {
                 indicatorResutl.style.backgroundColor = "green"
             else
                 indicatorResutl.style.backgroundColor = "red"
+                fetch("./icons/"+buttonNames[index]+".svg")
+                .then(response => response.text())
+                .then(svgContent => {
+                    indicatorResutl.innerHTML = svgContent;
+                })
             historyZone.append(indicatorResutl)
         })
-        //matchingResult.forEach((result, index) => {
-        //    const indicatorResutl = document.createElement("div")
-        //    indicatorResutl.className = "history-card"
-
-        //    if (result === (buttons[index].className === "selected"))
-        //        indicatorResutl.style.backgroundColor = "green"
-        //    else
-        //        indicatorResutl.style.backgroundColor = "red"
-        //    historyZone.append(indicatorResutl)
-        //})
     }
     buttons.forEach((button) => {
         button.className = ""
