@@ -14,27 +14,28 @@ const positionSet = [
 ];
 
 const history = []
-var level = 2;
-
-const buttonNames = ["Picture", "Color","Rotation","Position"];
+var level = 1;
+var goodRound = 0;
+const buttonNames = ["Picture", "Color", "Rotation", "Position"];
 const buttons = []
-
-const incLevel = (value) =>{
+var autoLeveling = false;
+const incLevel = (value) => {
     level = level + value
     document.getElementById('levelDisplay').innerText = level;
 }
-function createButtons(buttonNames, containerClass) {
-    const container = document.getElementsByClassName(containerClass)[0];
+function createButtons(buttonNames) {
+    const container = document.getElementsByClassName("button-zone")[0];
+
 
     buttonNames.forEach(name => {
         const button = document.createElement("button");
         button.id = name
         button.className = "button-action"
-        fetch("./icons/"+name+".svg")
-        .then(response => response.text())
-        .then(svgContent => {
-            button.innerHTML = svgContent;
-        })
+        fetch("./icons/" + name + ".svg")
+            .then(response => response.text())
+            .then(svgContent => {
+                button.innerHTML = svgContent;
+            })
         button.onclick = function () {
             if (this.className === "selected") {
                 this.className = "";
@@ -46,6 +47,16 @@ function createButtons(buttonNames, containerClass) {
         buttons.push(button)
     });
 
+    const containerSkip = document.getElementsByClassName("skip-zone")[0];
+    const button = document.createElement("button");
+    button.id = "skip-button"
+    button.textContent = "NEXT"
+
+    button.onclick = function () {
+        loadPicture()
+    };
+
+    containerSkip.appendChild(button);
 }
 
 function addPicture(element) {
@@ -99,8 +110,8 @@ function addPosition(element) {
 
     element.style.position = "absolute";
     element.style.transform += " scale(0.6, 0.6)";
-    element.style.top = (randomPosition[0] * 100)-25 + "px";
-    element.style.left = (randomPosition[1] * 100)-25 + "px";
+    element.style.top = (randomPosition[0] * 100) - 25 + "px";
+    element.style.left = (randomPosition[1] * 100) - 25 + "px";
 }
 
 const refreshHistoryVisual = () => {
@@ -110,48 +121,58 @@ const refreshHistoryVisual = () => {
 const result = () => {
     const historyZone = document.getElementsByClassName("history-zone")[0]
     historyZone.innerHTML = ''
-    const levelElement  = document.createElement("span")
-    levelElement.innerHTML = "level : "+level + "  "
+    const levelElement = document.createElement("span")
+    levelElement.innerHTML = "level : " + level + "  "
     levelElement.style.color = "white"
     levelElement.style.fontSize = "3em"
     historyZone.append(levelElement)
     if (history.length > level) {
-        
+
         const lastFigure = history.length - 1;
         const matchingResult = [history[lastFigure].picture === history[lastFigure - level].picture]
-        if(buttonNames.includes("Color")){
-            matchingResult.push(history[lastFigure].color === history[lastFigure - level].color)
-        }
-        if(buttonNames.includes("Rotation")){
-            matchingResult.push(history[lastFigure].rotation === history[lastFigure - level].rotation)
-        }
-        if(buttonNames.includes("Position")){
-            matchingResult.push(history[lastFigure].position === history[lastFigure - level].position)
+        matchingResult.push(history[lastFigure].color === history[lastFigure - level].color)
+        matchingResult.push(history[lastFigure].rotation === history[lastFigure - level].rotation)
+        matchingResult.push(history[lastFigure].position === history[lastFigure - level].position)
+
+
+        isRoundMatchingFully = true
+        buttonSelected = false
+        matchingResult.forEach((result, index) => {
+            isMatchingButton = result === (buttons[index].className === "selected")
+            color = isMatchingButton ? "green" : "red"
+
+            if (buttonNames.includes(buttons[index].id)) {
+                isRoundMatchingFully = isRoundMatchingFully && isMatchingButton 
+            }
+            buttonSelected = buttonSelected || buttons[index].className === "selected"
+            buttons[index].style.borderColor = color
+            buttons[index].style.transition = "border-color 0s";
+            setTimeout(() => {
+                buttons[index].style.transition = "border-color 1s ease-out";
+                buttons[index].style.borderColor = "rgb(136, 136, 136)";
+            }, 500);
+        })
+
+        if(isRoundMatchingFully){
+            if(buttonSelected)
+                goodRound = goodRound + 1;
+        }else{
+            goodRound = 0
         }
         
-        matchingResult.forEach((result, index) => {
-            const indicatorResutl = document.createElement("div")
-            indicatorResutl.className = "history-card"
-            indicatorResutl.id = "history-card"+index
-            color = result === (buttons[index].className === "selected") ? "green" : "red"
-            fetch("./icons/"+buttonNames[index]+".svg")
-            .then(response => response.text())
-            .then(svgContent => {
-                indicatorResutl.innerHTML = svgContent;
-            })
-            indicatorResutl.style.backgroundColor = color
-            historyZone.append(indicatorResutl)
-        })
+
     }
     buttons.forEach((button) => {
         button.className = ""
-    })    
+    })
 }
 
+
 function loadPicture() {
-    if(history.length === 0 ){
-        buttons.forEach((element, index)=>{
-            if(element.className === "selected" && element.id !== "Picture") {
+    if (history.length === 0) {
+        autoLeveling = document.getElementById("auto-level-increase").checked
+        buttons.forEach((element, index) => {
+            if (element.className === "selected" && element.id !== "Picture") {
                 const index = buttonNames.indexOf(element.id);
                 if (index !== -1) {
                     buttonNames.splice(index, 1);
@@ -161,6 +182,10 @@ function loadPicture() {
         })
     }
     result()
+    if (goodRound == 10 && autoLeveling) {
+        goodRound = 0
+        level++
+    }
     const element = document.createElement('div');
     element.className = "picture";
     element.position = "absolute"
@@ -190,9 +215,9 @@ function loadPicture() {
         figureZone.appendChild(element)
     }
 
-    setTimeout(loadPicture,2000)
+    //setTimeout(loadPicture,2000)
 }
 
 
 
-createButtons(buttonNames, "button-zone");
+createButtons(buttonNames);
