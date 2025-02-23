@@ -217,7 +217,7 @@ function loadPicture() {
         figureZone.appendChild(element)
     }
 
-    //setTimeout(loadPicture,2000)
+    setTimeout(loadPicture,2500)
 }
 
 
