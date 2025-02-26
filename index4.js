@@ -14,7 +14,7 @@ const positionSet = [
 ];
 
 let parameters = []
-const history = []
+let history = []
 var level = 1;
 var goodRound = 0;
 const buttonNames = ["0", "1", "2", "3"];
@@ -210,19 +210,7 @@ const result = () => {
             }, 500);
         }
 
-        // matchingResult.forEach((result, index) => {
-        //     isMatchingButton = result === (buttons[index].className === "selected")
-        //     color = isMatchingButton ? "green" : "red"
-
-        //     buttonSelected = buttonSelected || buttons[index].className === "selected"
-        //     buttons[index].style.borderColor = color
-        //     buttons[index].style.transition = "border-color 0s";
-        //     setTimeout(() => {
-        //         buttons[index].style.transition = "border-color 1s ease-out";
-        //         buttons[index].style.borderColor = "rgb(136, 136, 136)";
-        //     }, 500);
-        // })
-
+        //compter ici le score avec le round
         if(isRoundMatchingFully){
             if(buttonSelected)
                 goodRound = goodRound + 1;
@@ -238,41 +226,64 @@ const result = () => {
 }
 
 
+let inNbackPractice = false
+const launchPractice=()=>{
+    inNbackPractice = true;
+    menuVisible(false)
+    history = []
+    loadPicture()
+
+    let fullTime = 60000 * Number.parseInt(getParameterValue("end-time"))
+    console.log(fullTime)
+    //end of practice
+    setTimeout(()=>{
+        inNbackPractice=false
+        menuVisible(true)
+        document.getElementsByClassName("figures-zone")[0].innerHTML = ""
+        document.getElementsByClassName("history-zone")[0].innerHTML = ""
+        document.getElementsByClassName("button-zone")[0].innerHTML = ""
+        
+    },fullTime)
+}
+
+
 function loadPicture() {
-    if (history.length === 0) {
-        level = getParameterValue("nback-level")
-        menuVisible(false)
-        addButtons(buttonNames)
+    if(inNbackPractice){
+        if (history.length === 0) {
+            level = getParameterValue("nback-level")
+            addButtons(buttonNames)
+        }
+        
+        result()
+        const figureZone = document.getElementsByClassName("figures-zone")[0];
+        if (!figureZone) return;
+    
+        figureZone.innerHTML = ''
+        history.push({
+            picture: null,
+            color: null,
+            rotation: null,
+            position: null
+        })
+    
+        const element = document.createElement('div');
+        element.className = "picture";
+        element.position = "absolute"
+        addPicture(element);
+        if (isOptionSelected("option-color")) addColor(element);
+        if (isOptionSelected("option-rotation")) addRotation(element);
+        if (isOptionSelected("option-position")) {
+            const gridZone = document.createElement('div');
+            gridZone.className = 'grid-zone';
+            addPosition(element, gridZone);
+            gridZone.appendChild(element);
+            figureZone.appendChild(gridZone);
+        } else {
+            figureZone.appendChild(element)
+        }
+        
+        setTimeout(loadPicture,getParameterValue("refresh-time-refresh"))
     }
-    result()
-    const figureZone = document.getElementsByClassName("figures-zone")[0];
-    if (!figureZone) return;
-
-    figureZone.innerHTML = ''
-    history.push({
-        picture: null,
-        color: null,
-        rotation: null,
-        position: null
-    })
-
-    const element = document.createElement('div');
-    element.className = "picture";
-    element.position = "absolute"
-    addPicture(element);
-    if (isOptionSelected("option-color")) addColor(element);
-    if (isOptionSelected("option-rotation")) addRotation(element);
-    if (isOptionSelected("option-position")) {
-        const gridZone = document.createElement('div');
-        gridZone.className = 'grid-zone';
-        addPosition(element, gridZone);
-        gridZone.appendChild(element);
-        figureZone.appendChild(gridZone);
-    } else {
-        figureZone.appendChild(element)
-    }
-
-    setTimeout(loadPicture,getParameterValue("refresh-time-refresh"))
 }
 
 

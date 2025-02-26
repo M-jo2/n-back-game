@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>My Website</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style4.css">
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
 </head>
 
@@ -25,12 +25,12 @@
         <input  type="number" id="nback-level" class="parameter" min="1" value="2" onchange="saveMenuParameter(event)">
         
         <div></div>
-        <label for="nback-time-refresh" class="text">Time refresh (ms) :</label>
-        <input  type="number" id="refresh-time-refresh" class="parameter" min="0" max="120" value="10" onchange="saveMenuParameter(event)">
+        <label for="refresh-time-refresh" class="text">Time refresh (ms) :</label>
+        <input  type="number" id="refresh-time-refresh" class="parameter" min="500" max="4000" value="2500" onchange="saveMenuParameter(event)">
         
         <div></div>
-        <label for="nback-level" class="text">Time (min) :</label>
-        <input  type="number" id="refresh-time" class="parameter" min="500" max="4000" value="1500" onchange="saveMenuParameter(event)">
+        <label for="end-time" class="text">Time (min) :</label>
+        <input  type="number" id="end-time" class="parameter" min="0" max="120" value="10" onchange="saveMenuParameter(event)">
     
         <fieldset id="menu-checkboxes">
             <legend class="text">Options</legend>
@@ -41,7 +41,7 @@
             <div class="text"><input class="parameter" type="checkbox" id="option-sound" onchange="saveMenuParameter(event)"> Son</div>
         </fieldset>
     
-        <button id="play-button" onclick="loadPicture()">Play</button>
+        <button id="play-button" onclick="launchPractice()">Play</button>
         <canvas id="performance-chart"></canvas>
     </div> 
 
@@ -56,11 +56,8 @@
     <div class="button-zone">
         
     </div>
-    <div class="skip-zone">
-        
-    </div>
 
-    <script src="index.js"></script>
+    <script src="index4.js"></script>
 </body>
 
 </html>
