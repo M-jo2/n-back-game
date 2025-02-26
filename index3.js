@@ -5,8 +5,6 @@ const pictureSet = [
     [[0, 0], [0, 1], [1, 0], [1, 1], [2, 2]]
 ];
 
-
-
 const colorsSet = ["#26495c", "#c4a35c", "#3dc67d", "#e5e5dc"];
 const rotationSet = [0, 90, 180, -90]
 const positionSet = [
@@ -15,50 +13,98 @@ const positionSet = [
     [2, 0], [2, 1], [2, 2]
 ];
 
+let parameters = []
 const history = []
 var level = 1;
 var goodRound = 0;
-const buttonNames = ["Picture", "Color", "Rotation", "Position"];
+const buttonNames = ["0", "1", "2", "3"];
 const buttons = []
 var autoLeveling = false;
-const incLevel = (value) => {
-    level = level + value
-    document.getElementById('levelDisplay').innerText = level;
+
+const saveMenuParameter = (event) => {
+    if(event.target.type === "checkbox") localStorage.setItem(event.target.id, event.target.checked)
+    else localStorage.setItem(event.target.id, event.target.value)
+    loadMenuParameters()
 }
-function createButtons(buttonNames) {
+
+const loadMenuParameters = () => {
+    let params = document.getElementsByClassName("parameter")
+    parameters = []
+    for(let element of params){
+        let value;
+        let parameterValue = null
+
+        if(element.type === "checkbox"){
+            value = localStorage.getItem(element.id)
+            
+            if (value != null) {
+                element.checked = value == "true"
+                parameterValue = value == "true"
+            }
+        }
+        else{
+            value = localStorage.getItem(element.id)
+            if (value != null) {
+                element.value =  value
+                parameterValue = value
+            }
+        }
+        parameters.push({
+                id : element.id,
+                value : parameterValue == null ? 
+                        (element.type === "checkbox" ? element.checked : element.value) : parameterValue});
+        
+    }
+}
+
+const menuVisible = (isVisible) => {
+    document.getElementById("menu").style.display = isVisible ? "block" : "none";
+}
+
+const getAllOptionsSelected = () =>{
+    return parameters.filter((value,index)=>{
+        return value.id.includes("option-") && value.value == true
+    })
+}
+const getAllOptionsNotSelected = () =>{
+    return parameters.filter((value,index)=>{
+        return value.id.includes("option-") && value.value == false
+    })
+}
+
+const isOptionSelected = (idOption) =>{
+    return parameters.filter((value,index)=>{
+        return value.id.includes(idOption) && value.value == true
+    }).length == 1
+}
+const getParameterValue= (idParam) =>{
+    return parameters.filter((value,index)=>{
+        return value.id == idParam
+    }).at(0).value
+}
+
+function addButtons(buttonNames) {
     const container = document.getElementsByClassName("button-zone")[0];
-
-
-    buttonNames.forEach(name => {
+    const numberButton = getAllOptionsSelected().length + 1
+    
+    for(let i=0 ; i<numberButton ; i++){
         const button = document.createElement("button");
-        button.id = name
+        button.id = "button-"+i
         button.className = "button-action"
-        fetch("./icons/" + name + ".svg")
-            .then(response => response.text())
-            .then(svgContent => {
-                button.innerHTML = svgContent;
-            })
+        button.innerHTML = i;
         button.onclick = function () {
             if (this.className === "selected") {
                 this.className = "";
             } else {
+                for(buttonToDeselect of document.getElementsByClassName("selected")){
+                    buttonToDeselect.className = ""
+                }
                 this.className = "selected";
             }
         };
         container.appendChild(button);
         buttons.push(button)
-    });
-
-    const containerSkip = document.getElementsByClassName("skip-zone")[0];
-    const button = document.createElement("button");
-    button.id = "skip-button"
-    button.textContent = "NEXT"
-
-    button.onclick = function () {
-        loadPicture()
-    };
-
-    containerSkip.appendChild(button);
+    }
 }
 
 function addPicture(element) {
@@ -121,39 +167,61 @@ const refreshHistoryVisual = () => {
 }
 
 const result = () => {
+    //afficher le niveau ici
     const historyZone = document.getElementsByClassName("history-zone")[0]
     historyZone.innerHTML = ''
     const levelElement = document.createElement("span")
-    levelElement.innerHTML = "level : " + level + "  "
+    levelElement.innerHTML = "level : " + level
     levelElement.style.color = "white"
     levelElement.style.fontSize = "3em"
     historyZone.append(levelElement)
+
+    // Valider un résultat ici
     if (history.length > level) {
 
         const lastFigure = history.length - 1;
-        const matchingResult = [history[lastFigure].picture === history[lastFigure - level].picture]
-        matchingResult.push(history[lastFigure].color === history[lastFigure - level].color)
-        matchingResult.push(history[lastFigure].rotation === history[lastFigure - level].rotation)
-        matchingResult.push(history[lastFigure].position === history[lastFigure - level].position)
 
+        let countMatch = 0;
+        countMatch += history[lastFigure].picture === history[lastFigure - level].picture ? 1 : 0
+        countMatch += history[lastFigure].color === history[lastFigure - level].color ? 1 : 0
+        countMatch += history[lastFigure].rotation === history[lastFigure - level].rotation? 1 : 0
+        countMatch += history[lastFigure].position === history[lastFigure - level].position? 1 : 0
+        countMatch += history[lastFigure].sound === history[lastFigure - level].sound? 1 : 0
+        countMatch -= getAllOptionsNotSelected().length
 
         isRoundMatchingFully = true
         buttonSelected = false
-        matchingResult.forEach((result, index) => {
-            isMatchingButton = result === (buttons[index].className === "selected")
-            color = isMatchingButton ? "green" : "red"
+        let correctAnswer = countMatch;
+        let selectedButtons = buttons.filter(button => button.className === "selected")
 
-            if (buttonNames.includes(buttons[index].id)) {
-                isRoundMatchingFully = isRoundMatchingFully && isMatchingButton 
-            }
-            buttonSelected = buttonSelected || buttons[index].className === "selected"
-            buttons[index].style.borderColor = color
-            buttons[index].style.transition = "border-color 0s";
+        let answer = -1
+        if(selectedButtons != null && selectedButtons.length > 0)
+            answer = buttons.filter(button => button.className === "selected").at(0).innerHTML
+
+        console.log(correctAnswer)
+        color = correctAnswer == answer ? "green" : "red"
+        let button = document.getElementById("button-"+correctAnswer)
+        if(button != null){
+            button.style.borderColor = color
+            button.style.transition = "border-color 0s";
             setTimeout(() => {
-                buttons[index].style.transition = "border-color 1s ease-out";
-                buttons[index].style.borderColor = "rgb(136, 136, 136)";
+                button.style.transition = "border-color 1s ease-out";
+                button.style.borderColor = "rgb(136, 136, 136)";
             }, 500);
-        })
+        }
+
+        // matchingResult.forEach((result, index) => {
+        //     isMatchingButton = result === (buttons[index].className === "selected")
+        //     color = isMatchingButton ? "green" : "red"
+
+        //     buttonSelected = buttonSelected || buttons[index].className === "selected"
+        //     buttons[index].style.borderColor = color
+        //     buttons[index].style.transition = "border-color 0s";
+        //     setTimeout(() => {
+        //         buttons[index].style.transition = "border-color 1s ease-out";
+        //         buttons[index].style.borderColor = "rgb(136, 136, 136)";
+        //     }, 500);
+        // })
 
         if(isRoundMatchingFully){
             if(buttonSelected)
@@ -172,27 +240,12 @@ const result = () => {
 
 function loadPicture() {
     if (history.length === 0) {
-        autoLeveling = document.getElementById("auto-level-increase").checked
-        buttons.forEach((element, index) => {
-            if (element.className === "selected" && element.id !== "Picture") {
-                const index = buttonNames.indexOf(element.id);
-                if (index !== -1) {
-                    buttonNames.splice(index, 1);
-                    element.remove()
-                }
-            }
-        })
+        level = getParameterValue("nback-level")
+        menuVisible(false)
+        addButtons(buttonNames)
     }
     result()
-    if (goodRound == 10 && autoLeveling) {
-        goodRound = 0
-        level++
-    }
-    const element = document.createElement('div');
-    element.className = "picture";
-    element.position = "absolute"
     const figureZone = document.getElementsByClassName("figures-zone")[0];
-
     if (!figureZone) return;
 
     figureZone.innerHTML = ''
@@ -203,11 +256,13 @@ function loadPicture() {
         position: null
     })
 
+    const element = document.createElement('div');
+    element.className = "picture";
+    element.position = "absolute"
     addPicture(element);
-    if (buttonNames.includes("Color")) addColor(element);
-    if (buttonNames.includes("Rotation")) addRotation(element);
-
-    if (buttonNames.includes("Position")) {
+    if (isOptionSelected("option-color")) addColor(element);
+    if (isOptionSelected("option-rotation")) addRotation(element);
+    if (isOptionSelected("option-position")) {
         const gridZone = document.createElement('div');
         gridZone.className = 'grid-zone';
         addPosition(element, gridZone);
@@ -217,9 +272,10 @@ function loadPicture() {
         figureZone.appendChild(element)
     }
 
-    setTimeout(loadPicture,2500)
+    setTimeout(loadPicture,getParameterValue("refresh-time-refresh"))
 }
 
 
 
-createButtons(buttonNames);
+//createButtons(buttonNames);
+loadMenuParameters()

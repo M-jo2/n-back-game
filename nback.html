@@ -20,17 +20,34 @@
         </div>
     </div>
 
+    <div id="menu">
+        <label for="nback-level" class="text">N-Back :</label>
+        <input  type="number" id="nback-level" class="parameter" min="1" value="2" onchange="saveMenuParameter(event)">
+        
+        <div></div>
+        <label for="nback-time-refresh" class="text">Time refresh (ms) :</label>
+        <input  type="number" id="refresh-time-refresh" class="parameter" min="0" max="120" value="10" onchange="saveMenuParameter(event)">
+        
+        <div></div>
+        <label for="nback-level" class="text">Time (min) :</label>
+        <input  type="number" id="refresh-time" class="parameter" min="500" max="4000" value="1500" onchange="saveMenuParameter(event)">
+    
+        <fieldset id="menu-checkboxes">
+            <legend class="text">Options</legend>
+            <div class="text"><input class="parameter" type="checkbox" id="option-shape" onchange="saveMenuParameter(event)"> Forme</div>
+            <div class="text"><input class="parameter" type="checkbox" id="option-color" onchange="saveMenuParameter(event)"> Couleur</div>
+            <div class="text"><input class="parameter" type="checkbox" id="option-position" onchange="saveMenuParameter(event)"> Position</div>
+            <div class="text"><input class="parameter" type="checkbox" id="option-rotation" onchange="saveMenuParameter(event)"> Rotation</div>
+            <div class="text"><input class="parameter" type="checkbox" id="option-sound" onchange="saveMenuParameter(event)"> Son</div>
+        </fieldset>
+    
+        <button id="play-button" onclick="loadPicture()">Play</button>
+        <canvas id="performance-chart"></canvas>
+    </div> 
+
     <div class="game-zone">
         <div class="figures-zone">
-            <div>
-                <span style="color: aliceblue; font-size: 2rem;">nback : </span>
-                <span class="level-button" onclick="incLevel(-1)">-</span>
-                <span id="levelDisplay" style="color: aliceblue; font-size: 2rem;">1</span>
-                <span class="level-button" onclick="incLevel(1)">+</span>
-                <div><input id="auto-level-increase" type="checkbox" ><span id="levelDisplay" style="color: aliceblue; font-size: 2rem;">Auto level increase</span></input></div>
-                
-                <div class="start-button" onclick="loadPicture()" style="margin-top: 20px;">START</div>
-            </div>
+            
         </div>
         <div class="history-zone">
 
