@@ -78,9 +78,11 @@ const isOptionSelected = (idOption) =>{
     }).length == 1
 }
 const getParameterValue= (idParam) =>{
-    return parameters.filter((value,index)=>{
-        return value.id == idParam
-    }).at(0).value
+    let param = parameters.filter((parameter,index)=>{
+        return parameter.id == idParam
+    }).at(0)
+    if(param.type === "checkbox") return param.checked
+    return param.value
 }
 
 function addButtons(buttonNames) {
@@ -198,16 +200,18 @@ const result = () => {
         if(selectedButtons != null && selectedButtons.length > 0)
             answer = buttons.filter(button => button.className === "selected").at(0).innerHTML
 
-        console.log(correctAnswer)
-        color = correctAnswer == answer ? "green" : "red"
-        let button = document.getElementById("button-"+correctAnswer)
-        if(button != null){
-            button.style.borderColor = color
-            button.style.transition = "border-color 0s";
-            setTimeout(() => {
-                button.style.transition = "border-color 1s ease-out";
-                button.style.borderColor = "rgb(136, 136, 136)";
-            }, 500);
+        if(getParameterValue("feedback-activate"))
+        {
+            color = correctAnswer == answer ? "green" : "red"
+            let button = document.getElementById("button-"+correctAnswer)
+            if(button != null){
+                button.style.borderColor = color
+                button.style.transition = "border-color 0s";
+                setTimeout(() => {
+                    button.style.transition = "border-color 1s ease-out";
+                    button.style.borderColor = "rgb(136, 136, 136)";
+                }, 500);
+            }
         }
 
         //compter ici le score avec le round
