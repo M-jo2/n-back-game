@@ -30,6 +30,8 @@ var goodRound = 0;
 const buttonNames = ["0", "1", "2", "3"];
 const buttons = []
 var autoLeveling = false;
+var totalStep = 0
+var totalMiss = 0
 
 const saveMenuParameter = (event) => {
     if(event.target.type === "checkbox") localStorage.setItem(event.target.id, event.target.checked)
@@ -200,7 +202,8 @@ const result = () => {
 
     // Valider un résultat ici
     if (history.length > level) {
-
+        totalStep ++
+        
         const lastFigure = history.length - 1;
 
         let countMatch = 0;
@@ -223,6 +226,7 @@ const result = () => {
         if(getParameterValue("feedback-activate"))
         {
             color = correctAnswer == answer ? "green" : "red"
+            if(color == "red")totalMiss ++
             let button = document.getElementById("button-"+correctAnswer)
             if(button != null){
                 button.style.borderColor = color
@@ -252,6 +256,8 @@ const result = () => {
 
 let inNbackPractice = false
 const launchPractice=()=>{
+    totalStep = 0
+    totalMiss = 0
     inNbackPractice = true;
     menuVisible(false)
     history = []
@@ -266,6 +272,8 @@ const launchPractice=()=>{
         document.getElementsByClassName("figures-zone")[0].innerHTML = ""
         document.getElementsByClassName("history-zone")[0].innerHTML = ""
         document.getElementsByClassName("button-zone")[0].innerHTML = ""
+        document.getElementsByClassName("result-miss")[0].innerHTML = totalMiss
+        document.getElementsByClassName("result-total-step")[0].innerHTML = totalStep
         
     },fullTime)
 }
