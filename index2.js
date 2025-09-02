@@ -13,6 +13,16 @@ const positionSet = [
     [2, 0], [2, 1], [2, 2]
 ];
 
+const audios = [new Audio("sounds/soud_1.wav"),
+    new Audio("sounds/soud_2.wav"),
+    new Audio("sounds/soud_3.wav"),
+    new Audio("sounds/soud_4.wav"),
+    new Audio("sounds/soud_5.wav"),
+    new Audio("sounds/soud_6.wav"),
+    new Audio("sounds/soud_7.wav"),
+    new Audio("sounds/soud_8.wav"),
+    new Audio("sounds/soud_9.wav")];
+
 let parameters = []
 let history = []
 var level = 1;
@@ -125,6 +135,7 @@ function addPicture(element) {
                 const randomDelay = Math.random() * (500 - 100) + 100; // Délai entre 100ms et 300ms
                 cell.classList.add('pop-animation');
                 cell.style.animationDuration = `${randomDelay}ms`;
+                cell.style.backgroundColor = "white";
             }
 
             matrix.appendChild(cell);
@@ -162,6 +173,15 @@ function addPosition(element) {
     element.style.transform += " scale(0.6, 0.6)";
     element.style.top = (randomPosition[0] * 100) - 25 + "px";
     element.style.left = (randomPosition[1] * 100) - 25 + "px";
+}
+
+
+function addSound(element) {
+    const audio = audios[Math.floor(Math.random() * audios.length)];
+    history[history.length - 1].sound = audio
+
+      audio.play();
+    
 }
 
 const refreshHistoryVisual = () => {
@@ -274,6 +294,7 @@ function loadPicture() {
         element.className = "picture";
         element.position = "absolute"
         addPicture(element);
+        if (isOptionSelected("option-sound")) addSound(element);
         if (isOptionSelected("option-color")) addColor(element);
         if (isOptionSelected("option-rotation")) addRotation(element);
         if (isOptionSelected("option-position")) {
@@ -282,7 +303,9 @@ function loadPicture() {
             addPosition(element, gridZone);
             gridZone.appendChild(element);
             figureZone.appendChild(gridZone);
-        } else {
+        } 
+        
+        else {
             figureZone.appendChild(element)
         }
         
