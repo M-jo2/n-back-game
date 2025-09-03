@@ -5,6 +5,8 @@ const pictureSet = [
     [[0, 0], [0, 1], [1, 0], [1, 1], [2, 2]]
 ];
 
+const noPicture = [[0, 0],[0, 1],[0, 2],[1, 0], [1, 1], [1, 2], [2, 0], [2, 1], [2, 2]]
+
 const colorsSet = ["#26495c", "#c4a35c", "#3dc67d", "#e5e5dc"];
 const rotationSet = [0, 90, 180, -90]
 const positionSet = [
@@ -121,8 +123,8 @@ function addButtons(buttonNames) {
     }
 }
 
-function addPicture(element) {
-    const filledCoordinates = pictureSet[Math.floor(Math.random() * pictureSet.length)];
+function addPicture(element, onlyDot) {
+    const filledCoordinates = onlyDot ? noPicture: pictureSet[Math.floor(Math.random() * pictureSet.length)];
     history[history.length - 1].picture = filledCoordinates;
     const matrix = document.createElement('div');
     matrix.classList.add('matrix');
@@ -301,7 +303,7 @@ function loadPicture() {
         const element = document.createElement('div');
         element.className = "picture";
         element.position = "absolute"
-        addPicture(element);
+        addPicture(element, !isOptionSelected("option-shape"));
         if (isOptionSelected("option-sound")) addSound(element);
         if (isOptionSelected("option-color")) addColor(element);
         if (isOptionSelected("option-rotation")) addRotation(element);
